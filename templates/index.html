@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Guano Drop</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="icon" type="image/x-icon" href="/static/logo.ico">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <!-- React dependencies -->
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <div id="gameContainer">
+        <div id="score"><span id="scoreValue">0</span></div>
+        <canvas id="gameCanvas"></canvas>
+    </div>
+    
+    <div id="controls">
+        <div id="mainControls"></div>
+    </div>
+
+    <!-- Game scripts -->
+    <script src="/static/js/game.js"></script>
+    
+    <!-- React components -->
+    <script type="text/babel" src="/static/js/controls.js"></script>
+    <script type="text/babel">
+        // Wait for both DOM and game to be ready
+        const renderControls = () => {
+            if (!window.game || !window.Controls) {
+                requestAnimationFrame(renderControls);
+                return;
+            }
+
+            // Mount main controls
+            ReactDOM.render(
+                React.createElement(window.Controls.MainControls),
+                document.getElementById('mainControls')
+            );
+        };
+
+        // Start rendering when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', renderControls);
+        } else {
+            renderControls();
+        }
+    </script>
+</body>
+</html> 
